@@ -397,15 +397,36 @@ table.sep <- table %>%
            sep = "-") %>% 
 #  mutate(month = as.numeric(month),
 #         dayofmonth = as.numeric(dayofmonth)) %>% 
-  mutate_at(.tbl = .,
-            .vars = c("year", "month", "dayofmonth"),
-            .funs = as.numeric) %>% 
+  mutate_at(.tbl = .,                                 #which table?
+            .vars = c("year", "month", "dayofmonth"), #which variables are mutated?
+            .funs = as.numeric) %>%                   #which function is applied?
   arrange(year, month, dayofmonth)
   
-  
-  
-  
-  
+
+# unite() - combine multiple columns into one column
+
+# we add leading zeros form month and dayofmonth
+# so we will use library stringr (from tidyverse)
+
+
+library(stringr)
+library(tidyverse)
+
+# create one date column by merging:
+# - year, mont, dayofmonth
+# - add leading zeros (stringr)
+# - sort columns
+
+table.unite <- table.sep %>% 
+  # add leading zeros
+  # mutate(month = str_pad(month, width = 2, side = "left", pad = "0"),
+  #        dayofmonth = str_pad(dayofmonth, width = 2, side = "left", pad = "0")) %>% 
+  mutate_at(.tbl = ., .vars = c("month", "dayofmonth"), .funs = str_pad, 2, "left", "0") %>% 
+  unite(data = .,
+        col = "date",
+        year, month, dayofmonth,
+        sep = "-") %>% 
+  arrange()
   
   
   
