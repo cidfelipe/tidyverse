@@ -301,8 +301,10 @@ df2 <- df %>%
 
 
 table.long <- data.frame(id = 1:6,
-                         type = c("a", "b", "a", "c", "b", "a"),
+                         type = c("a", "b", "a", "c", "c", "a"),
                          count = c(20, 50, 45, 15, 12, 5))
+
+table.long
 
 
 # pivot_wider() - converts long data to wide data
@@ -324,13 +326,56 @@ table.wide
 table.long1 <- pivot_longer(table.wide,
                             cols = c("a", "b", "c"),
                             names_to = "type",
-                            values_to = "count")
+                            values_to = "count", 
+                            values_drop_na = T)
 
 
 
+table.long1
 
 
+# now let's pivot our car dataset
 
+# filter rows where manufacturer is "jeep" / "land rover" / "hyundai"
+# select model, trans., hwy
+# calculate avg. hwy for each model and trans.
+# this will be long table format
+
+df.long <- df %>% 
+  filter(manufacturer %in% c("jeep", "land rover", "hyundai")) %>% 
+  select(model, trans, hwy) %>% 
+  group_by(model, trans) %>% 
+  summarise('mean hwy' = mean(hwy)) %>% 
+  ungroup()
+
+
+df.long
+
+#Now convert long to wide format -  where trans. in transformed into columns
+
+df.wide <- df.long %>% 
+  pivot_wider(names_from = trans,
+              values_from = 'mean hwy')
+
+# convert back to long format
+
+df.long1 <- df.wide %>% 
+  pivot_longer(-model,#exclude column model and use all remaining columns for pivoting
+               names_to = "trans",
+               values_to = 'mean why',
+               values_drop_na = T
+               ) %>% 
+  filter(!is.na('mean why'))
+
+
+df.long1
+  
+  
+  
+  
+  
+  
+  
 
 
 
