@@ -370,12 +370,53 @@ df.long1 <- df.wide %>%
 
 df.long1
   
+
+################################################################################
+## SEPARATE AND UNITE COLUMNS
+################################################################################
+  
+# separating & uniting columns
+
+## lets' create a table with date column (generate date for 1 years)
+
+dates <- seq.Date(from = as.Date("2021-01-01"), to = as.Date("2021-12-31"), by = "day")
+table <- data.frame(date = dates)  
+table %>% head()
+table %>% tail()
+
+# separate() split one column into multiple columns
+
+## split date into year, month and day of month
+## remove leading zeros where is necessary
+## sort columns
+
+table.sep <- table %>%
+  separate(data = .,
+           col = date,
+           into = c("year", "month", "dayofmonth"),
+           sep = "-") %>% 
+#  mutate(month = as.numeric(month),
+#         dayofmonth = as.numeric(dayofmonth)) %>% 
+  mutate_at(.tbl = .,
+            .vars = c("year", "month", "dayofmonth"),
+            .funs = as.numeric) %>% 
+  arrange(year, month, dayofmonth)
   
   
   
   
   
   
+  
+  
+  
+  
+  
+
+
+
+
+
 
 
 
