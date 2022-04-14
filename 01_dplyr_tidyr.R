@@ -426,7 +426,7 @@ table.unite <- table.sep %>%
         col = "date",
         year, month, dayofmonth,
         sep = "-") %>% 
-  arrange()
+  arrange(year, month, dayofmonth)
   
   
   
