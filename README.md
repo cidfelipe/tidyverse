@@ -1,6 +1,3 @@
-Files created in Udemy's data science course with R, this is my personal repository.
-
-
 The goal of tidyverse is to ...
 
 Files created in Udemy's data science course with R, this is my personal repository.
